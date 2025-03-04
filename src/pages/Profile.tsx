@@ -9,7 +9,7 @@ import {
 } from "react";
 import PromptBar from "../components/PromptBar";
 import commands from "../commands.json";
-import { themes } from "../../constants";
+import { themes } from "../constants";
 
 interface State {
   history: {

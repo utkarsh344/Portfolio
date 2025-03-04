@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import info from "../../data.json";
-import { themes } from "../../constants";
+import { themes } from "../constants";
 
 const options = info.options.map((option) => option.label);
 import { Queue } from "queue-typescript";
