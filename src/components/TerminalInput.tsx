@@ -1,5 +1,5 @@
 import React, { useState, useEffect, KeyboardEvent, SetStateAction } from "react";
-import { username, hostname, path, symbol, themes } from "../constants";
+import { username, hostname, path, symbol } from "../constants";
 import { executeCommand } from "../utils/commandHandler";
 
 interface TerminalInputProps {
@@ -18,7 +18,6 @@ const TerminalInput: React.FC<TerminalInputProps> = ({
   setHistory,
   historyIndex,
   setHistoryIndex,
-  theme,
   setTheme,
 }) => {
   const [input, setInput] = useState<string>("");

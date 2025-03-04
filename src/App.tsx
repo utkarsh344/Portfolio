@@ -69,7 +69,7 @@ function App() {
     </div>
   ]);
   const [theme, setTheme] = useState<"matrix" | "ubuntu" | "arch">("matrix");
-  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [, setIsFullscreen] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
   const [historyIndex, setHistoryIndex] = useState(-1);
   const inputRef = useRef<HTMLInputElement>(null);
