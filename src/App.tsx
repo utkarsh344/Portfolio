@@ -333,7 +333,7 @@ function App() {
               <div className={`${themeSettings[theme].primaryText}`}>Download my resume in your preferred format:</div>
               <div className="mt-2">
                 <a 
-                  href="https://github.com/utkarsh344/Portfolio/raw/main/public/resume.pdf" 
+                  href="https://drive.google.com/drive/folders/1jUb501eptd86ILBZKzx1RFw9i7C_4syh?usp=sharing" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={`${themeSettings[theme].linkColor} hover:underline mr-4`}
@@ -341,7 +341,7 @@ function App() {
                   📄 Download PDF
                 </a>
                 <a 
-                  href="https://github.com/utkarsh344/Portfolio/raw/main/public/resume.docx" 
+                  href="https://drive.google.com/drive/folders/1jUb501eptd86ILBZKzx1RFw9i7C_4syh?usp=sharing" 
                   target="_blank" 
                   rel="noopener noreferrer" 
                   className={`${themeSettings[theme].linkColor} hover:underline`}
@@ -353,7 +353,7 @@ function App() {
                 <div className={`${themeSettings[theme].primaryText}`}>Or view my resume versions online:</div>
                 <div className="mt-1">
                   <a 
-                    href="https://github.com/utkarsh344/Portfolio/blob/main/public/resume_cybersecurity.pdf" 
+                    href="https://drive.google.com/file/d/1FN4SEpzgDoUeJ9BnmVn_QcLPhHiJUq7Z/view?usp=sharing" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`${themeSettings[theme].linkColor} hover:underline block mt-1`}
@@ -361,7 +361,7 @@ function App() {
                     👨‍💻 Cybersecurity Specialist Resume
                   </a>
                   <a 
-                    href="https://github.com/utkarsh344/Portfolio/blob/main/public/resume_devops.pdf" 
+                    href="https://drive.google.com/file/d/1WR2-iNRr32N4EBG4CmJ8N1ySWuk5ar1y/view?usp=drive_link" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`${themeSettings[theme].linkColor} hover:underline block mt-1`}
@@ -369,7 +369,7 @@ function App() {
                     🚀 DevOps Engineer Resume
                   </a>
                   <a 
-                    href="https://github.com/utkarsh344/Portfolio/blob/main/public/resume_devsecops.pdf" 
+                    href="https://drive.google.com/file/d/1K5CEpND6bVr82PIxKnwQ_vEC4h4NFRaR/view?usp=drive_link" 
                     target="_blank" 
                     rel="noopener noreferrer" 
                     className={`${themeSettings[theme].linkColor} hover:underline block mt-1`}
