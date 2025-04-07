@@ -196,7 +196,7 @@ function App() {
       </div>
     ]);
   } else if (args[1] === "open" && args[2]) {
-    const challenge = ctfChallenges[args[2]];
+    const challenge = ctfChallenges[args[2] as keyof typeof ctfChallenges];
     if (challenge) {
       setOutputs(prev => [
         ...prev,
@@ -215,15 +215,15 @@ function App() {
   } else if (args[1] === "submit" && args[2]) {
     const id = args[2];
     const flag = args.slice(3).join(" ");
-    const challenge = ctfChallenges[id];
+    const challenge = ctfChallenges[id as keyof typeof ctfChallenges];
 
     if (!challenge) {
       setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Invalid challenge ID.</div>]);
-    } else if (ctfSolved[id]) {
+    } else if (ctfSolved[id as keyof typeof ctfChallenges]) {
       setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Already solved.</div>]);
     } else if (flag === challenge.flag) {
       ctfScore += 100;
-      ctfSolved[id] = true;
+      ctfSolved[id as keyof typeof ctfChallenges] = true;
       setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Correct! +100pts</div>]);
     } else {
       setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Incorrect flag.</div>]);
@@ -244,7 +244,6 @@ function App() {
     ]);
   }
   break;
-
 
       case "help":
         setOutputs(prev => [
