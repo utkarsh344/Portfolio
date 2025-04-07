@@ -37,6 +37,7 @@ const themeSettings = {
 // Personalized commands with icons based on resume
 const availableCommands = [
   { icon: "📡", cmd: "ip", desc: "- Show your public IP address and location" },
+  { icon: "🎮", cmd: "ctf", desc: "- Play my Capture The Flag game" },
   { icon: "☀️", cmd: "about", desc: "- Security Analyst & DevSecOps Engineer" },
   { icon: "🌐", cmd: "socials", desc: "- LinkedIn & GitHub profiles" },
   { icon: "📋", cmd: "skills", desc: "- Security Tools, DevOps & Cloud expertise" },
@@ -48,6 +49,21 @@ const availableCommands = [
   { icon: "✏️", cmd: "clear", desc: "- Clear the terminal" },
   { icon: "⚙️", cmd: "theme", desc: "- Change the terminal theme" }
 ];
+
+const ctfChallenges = {
+  web1: {
+    description: "Web 1 - View the source code of this page.",
+    flag: "flag{source_viewed}"
+  },
+  crypto1: {
+    description: "Crypto 1 - Caesar Cipher: Dwwdfn dw gdzq!",
+    flag: "flag{attack_at_dawn}"
+  }
+};
+
+let ctfScore = 0;
+let ctfSolved: Record<string, boolean> = {};
+
 
 function App() {
   const [input, setInput] = useState("");
@@ -169,6 +185,66 @@ function App() {
       ]);
     });
   break;
+
+  case "ctf":
+  if (args[1] === "list") {
+    const list = Object.keys(ctfChallenges).map(id => `- ${id}`).join("\n");
+    setOutputs(prev => [
+      ...prev,
+      <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+        Available CTF Challenges:<br /><pre>{list}</pre>
+      </div>
+    ]);
+  } else if (args[1] === "open" && args[2]) {
+    const challenge = ctfChallenges[args[2]];
+    if (challenge) {
+      setOutputs(prev => [
+        ...prev,
+        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+          {challenge.description}
+        </div>
+      ]);
+    } else {
+      setOutputs(prev => [
+        ...prev,
+        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+          Challenge not found.
+        </div>
+      ]);
+    }
+  } else if (args[1] === "submit" && args[2]) {
+    const id = args[2];
+    const flag = args.slice(3).join(" ");
+    const challenge = ctfChallenges[id];
+
+    if (!challenge) {
+      setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Invalid challenge ID.</div>]);
+    } else if (ctfSolved[id]) {
+      setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Already solved.</div>]);
+    } else if (flag === challenge.flag) {
+      ctfScore += 100;
+      ctfSolved[id] = true;
+      setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Correct! +100pts</div>]);
+    } else {
+      setOutputs(prev => [...prev, <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>Incorrect flag.</div>]);
+    }
+  } else if (args[1] === "score") {
+    setOutputs(prev => [
+      ...prev,
+      <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+        Your CTF Score: {ctfScore}
+      </div>
+    ]);
+  } else {
+    setOutputs(prev => [
+      ...prev,
+      <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+        Usage: ctf [list|open &lt;id&gt;|submit &lt;id&gt; &lt;flag&gt;|score]
+      </div>
+    ]);
+  }
+  break;
+
 
       case "help":
         setOutputs(prev => [
