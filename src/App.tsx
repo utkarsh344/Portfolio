@@ -36,6 +36,7 @@ const themeSettings = {
 
 // Personalized commands with icons based on resume
 const availableCommands = [
+  { icon: "📡", cmd: "ip", desc: "- Show your public IP address and location" },
   { icon: "☀️", cmd: "about", desc: "- Security Analyst & DevSecOps Engineer" },
   { icon: "🌐", cmd: "socials", desc: "- LinkedIn & GitHub profiles" },
   { icon: "📋", cmd: "skills", desc: "- Security Tools, DevOps & Cloud expertise" },
@@ -135,6 +136,40 @@ function App() {
     const mainCmd = args[0];
 
     switch (mainCmd) {
+      case "ip":
+  setOutputs(prev => [
+    ...prev,
+    <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+      Fetching your IP address...
+    </div>
+  ]);
+
+  fetch("https://ipinfo.io/json?token=8edba71ea9cfba") 
+    .then((res) => res.json())
+    .then((data) => {
+      setOutputs(prev => [
+        ...prev,
+        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+          <div><strong>IP:</strong> {data.ip}</div>
+          <div><strong>City:</strong> {data.city}</div>
+          <div><strong>Region:</strong> {data.region}</div>
+          <div><strong>Country:</strong> {data.country}</div>
+          <div><strong>Location:</strong> {data.loc}</div>
+          <div><strong>Org:</strong> {data.org}</div>
+          <div><strong>Timezone:</strong> {data.timezone}</div>
+        </div>
+      ]);
+    })
+    .catch(() => {
+      setOutputs(prev => [
+        ...prev,
+        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+          Unable to fetch IP information. Please try again later.
+        </div>
+      ]);
+    });
+  break;
+
       case "help":
         setOutputs(prev => [
           ...prev,

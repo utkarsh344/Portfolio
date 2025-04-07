@@ -9,15 +9,15 @@
     {
       "label": "skills",
       "about": "To know about my skills",
-      "value": "I'm a versatile full-stack developer, adept at turning ideas into robust web applications. <br /> <br /> Proficient in MERN stack, Redux, React-Redux, Tailwind CSS, SQL, RESTful APIs and many more."
+      "value": "I'm a versatile developer, adept at turning ideas into robust web applications. <br /> <br /> Proficient in many languages"
     },
     {
       "label": "experience",
       "about": "To know about my experience",
-      "value": "I have more than 10 years of experience.",
+      "value": "I have more than 1 years of experience.",
       "data": [
         {
-          "label": "Random Pvt Ltd",
+          "label": "R",
           "value": "Senior software engineer <br />  Year:  2015-present"
         },
         {
