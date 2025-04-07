@@ -36,7 +36,7 @@ const themeSettings = {
 
 // Personalized commands with icons based on resume
 const availableCommands = [
-  { icon: "📡", cmd: "ip", desc: "- Show your public IP address and location" },
+  { icon: "📡", cmd: "ipconfig", desc: "- Show your public IP address and location" },
   { icon: "🎮", cmd: "ctf", desc: "- Play my Capture The Flag game" },
   { icon: "☀️", cmd: "about", desc: "- Security Analyst & DevSecOps Engineer" },
   { icon: "🌐", cmd: "socials", desc: "- LinkedIn & GitHub profiles" },
@@ -64,34 +64,36 @@ const ctfChallenges = {
 let ctfScore = 0;
 let ctfSolved: Record<string, boolean> = {};
 
-
-function App() {
-  const [input, setInput] = useState("");
-  const [outputs, setOutputs] = useState<JSX.Element[]>([
-    <div key="welcome" className="text-center mb-4">
-      <pre className="text-cyan-500 inline-block text-left">
-{`
+const welcomeScreen = (
+  <div key="welcome" className="text-center mb-4">
+    <pre className="text-cyan-500 inline-block text-left">
+{String.raw`
      _    _      _                            _ 
     | |  | |    | |                          | |
     | |  | | ___| | ___ ___  _ __ ___   ___  | |
-    | |/\\| |/ _ \\ |/ __/ _ \\| '_ \` _ \\ / _ \\ | |
-    \\  /\\  /  __/ | (_| (_) | | | | | |  __/ |_|
-     \\/  \\/ \\___|_|\\___\\___/|_| |_| |_|\\___| (_)
-                                                
+    | |/\| |/ _ \ |/ __/ _ \| '_ \` _ \ / _ \ | |
+    \  /\  /  __/ | (_| (_) | | | | | |  __/ |_|
+     \/  \/ \___|_|\___\___/|_| |_| |_|\___| (_)
+                                               
 `}
-      </pre>
-      <div className="text-white">Welcome to my portfolio!</div>
-      <div className="text-white">Type <span className="text-yellow-400">help</span> to get a list of available commands.</div>
-      <div className="text-white">Use <span className="text-red-400">↑</span> and <span className="text-red-400">↓</span> to navigate command history.</div>
-    </div>
-  ]);
-  const [theme, setTheme] = useState<"matrix" | "ubuntu" | "arch">("matrix");
-  const [, setIsFullscreen] = useState(false);
-  const [history, setHistory] = useState<string[]>([]);
-  const [historyIndex, setHistoryIndex] = useState(-1);
-  const inputRef = useRef<HTMLInputElement>(null);
-  const terminalRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+    </pre>
+    <div className="text-white">Welcome to my portfolio!</div>
+    <div className="text-white">Type <span className="text-yellow-400">help</span> to get a list of available commands.</div>
+    <div className="text-white">Use <span className="text-red-400">↑</span> and <span className="text-red-400">↓</span> to navigate command history.</div>
+  </div>
+);
+
+function App() {
+  const [input, setInput] = useState(""); // Input field
+  const [outputs, setOutputs] = useState<JSX.Element[]>([welcomeScreen]); // Display
+  const [theme, setTheme] = useState<"matrix" | "ubuntu" | "arch">("matrix"); // Theme
+  const [, setIsFullscreen] = useState(false); // Optional fullscreen
+  const [history, setHistory] = useState<string[]>([]); // Command history
+  const [historyIndex, setHistoryIndex] = useState(-1); // ↑/↓ index
+  const inputRef = useRef<HTMLInputElement>(null); // Focus input
+  const terminalRef = useRef<HTMLDivElement>(null); // Scroll
+  const containerRef = useRef<HTMLDivElement>(null); // Fullscreen container
+
 
   // Focus input and scroll to bottom when outputs change
   useEffect(() => {
@@ -117,7 +119,7 @@ function App() {
       setOutputs(prev => [
         ...prev,
         <div key={`cmd-${Date.now()}`} className="flex">
-          <span className={themeSettings[theme].promptColor}>wanderer@portfolio:~$</span>
+          <span className={themeSettings[theme].promptColor}>Utkarsh@portfolio:~$</span>
           <span className={themeSettings[theme].primaryText}> {input}</span>
         </div>
       ]);
@@ -152,7 +154,7 @@ function App() {
     const mainCmd = args[0];
 
     switch (mainCmd) {
-      case "ip":
+      case "ipconfig":
   setOutputs(prev => [
     ...prev,
     <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
@@ -160,31 +162,91 @@ function App() {
     </div>
   ]);
 
-  fetch("https://ipinfo.io/json?token=8edba71ea9cfba") 
-    .then((res) => res.json())
-    .then((data) => {
-      setOutputs(prev => [
-        ...prev,
-        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
-          <div><strong>IP:</strong> {data.ip}</div>
-          <div><strong>City:</strong> {data.city}</div>
-          <div><strong>Region:</strong> {data.region}</div>
-          <div><strong>Country:</strong> {data.country}</div>
-          <div><strong>Location:</strong> {data.loc}</div>
-          <div><strong>Org:</strong> {data.org}</div>
-          <div><strong>Timezone:</strong> {data.timezone}</div>
-        </div>
-      ]);
-    })
-    .catch(() => {
-      setOutputs(prev => [
-        ...prev,
-        <div key={`output-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
-          Unable to fetch IP information. Please try again later.
-        </div>
-      ]);
-    });
-  break;
+  // IP + region info (no permission needed)
+fetch("https://ipapi.co/json")
+.then(res => res.json())
+.then(data => {
+  const lat = data.latitude;
+  const lon = data.longitude;
+
+  // Show city-level info
+  setOutputs(prev => [
+    ...prev,
+    <div key={`output-basic-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+      <div><strong>IP:</strong> {data.ip}</div>
+      <div><strong>City:</strong> {data.city}</div>
+      <div><strong>Region:</strong> {data.region}</div>
+      <div><strong>Country:</strong> {data.country_name}</div>
+      <div><strong>Location:</strong> {lat}, {lon}</div>
+      <div><strong>Org:</strong> {data.org}</div>
+      <div><strong>Timezone:</strong> {data.timezone}</div>
+
+      <div className="mt-2">
+        <a
+          href={`https://www.google.com/maps/@${lat},${lon},12z/data=!5m1!1e1`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline text-blue-400 hover:text-blue-300"
+        >
+          🛰️ View City-Level Zone (Map)
+        </a>
+      </div>
+      <div className="text-yellow-300 mt-2 text-sm italic">
+        Approximate location based on IP address.
+      </div>
+    </div>
+  ]);
+
+  // Ask for precise location (optional)
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const gpsLat = position.coords.latitude.toFixed(5);
+        const gpsLon = position.coords.longitude.toFixed(5);
+
+        setOutputs(prev => [
+          ...prev,
+          <div key={`output-precise-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+            <div className="mt-4 font-bold text-red-400">🎯 Satellite Lock Acquired</div>
+            <div><strong>Latitude:</strong> {gpsLat}</div>
+            <div><strong>Longitude:</strong> {gpsLon}</div>
+
+            <div className="mt-2">
+              <a
+                href={`https://www.google.com/maps?q=${gpsLat},${gpsLon}&hl=en&t=k&z=18`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="underline text-red-400 hover:text-red-300"
+              >
+                🔍 View Precise Location (Satellite Mode)
+              </a>
+            </div>
+            <div className="text-yellow-300 mt-2 text-sm italic">
+              Fetched from device — exact coordinates (GPS/Wi-Fi).
+            </div>
+          </div>
+        ]);
+      },
+      () => {
+        setOutputs(prev => [
+          ...prev,
+          <div key={`geo-fail-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+            🔒 Precise location not available — permission denied or unsupported.
+          </div>
+        ]);
+      }
+    );
+  }
+})
+.catch(() => {
+  setOutputs(prev => [
+    ...prev,
+    <div key={`output-error-${Date.now()}`} className={`${themeSettings[theme].primaryText}`}>
+      ⚠️ Unable to fetch IP or location info.
+    </div>
+  ]);
+});
+break;
 
   case "ctf":
   if (args[1] === "list") {
@@ -493,9 +555,10 @@ function App() {
         ]);
         break;
       
-      case "clear":
-        setOutputs([]);
-        break;
+        case "clear":
+          setOutputs([welcomeScreen]);
+          break;
+        
       
       case "theme":
         if (args.length > 1 && ["matrix", "ubuntu", "arch"].includes(args[1])) {
