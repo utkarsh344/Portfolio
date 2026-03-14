@@ -477,10 +477,6 @@ break;
                 <a href="mailto:utkarshjoshi135@gmail.com" className={`${themeSettings[theme].linkColor}`}>utkarshjoshi135@gmail.com</a>
               </div>
               <div className="mt-1">
-                <span className={`${themeSettings[theme].secondaryText} font-bold`}>Phone: </span>
-                <span>+91 9696887901</span>
-              </div>
-              <div className="mt-1">
                 <span className={`${themeSettings[theme].secondaryText} font-bold`}>LinkedIn: </span>
                 <a href="https://www.linkedin.com/in/utkarshj344" target="_blank" rel="noopener noreferrer" className={`${themeSettings[theme].linkColor} hover:underline`}>
                   www.linkedin.com/in/utkarshj344
